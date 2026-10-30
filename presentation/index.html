@@ -1,0 +1,451 @@
+    <!DOCTYPE html>flutter run -
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventify Campus — Presentasi Proyek</title>
+    <meta name="description" content="Slide presentasi proyek Eventify Campus - Aplikasi Manajemen Event Kampus berbasis Flutter & Firebase">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Navigation --> 
+    <nav class="slide-nav">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <span class="logo-icon">📅</span>
+                <span class="logo-text">Eventify Campus</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <span class="slide-counter" id="slideCounter">01 / 08</span>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" aria-label="Previous slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)" aria-label="Next slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slides Container -->
+    <div class="slides-container" id="slidesContainer">
+
+        <!-- ==================== SLIDE 1: COVER ==================== -->
+        <section class="slide slide-cover active" data-slide="1">
+            <div class="cover-bg-effects">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+                <div class="grid-overlay"></div>
+            </div>
+            <div class="slide-content cover-content">
+                <div class="cover-badge animate-in" data-delay="200">
+                    <span class="badge-dot"></span>
+                    Rencana Proyek Mata Kuliah — Pemrograman Mobile
+                </div>
+                <div class="cover-icon animate-in" data-delay="400">
+                    <div class="icon-glow"></div>
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+                </div>
+                <h1 class="cover-title animate-in" data-delay="600">
+                    Eventify<span class="gradient-text"> Campus</span>
+                </h1>
+                <h2 class="cover-subtitle animate-in" data-delay="700" style="font-size: clamp(1.1rem, 2.5vw, 1.6rem); color: var(--text-primary); font-weight: 500; margin-bottom: 12px; letter-spacing: 0.5px;">
+                    Aplikasi Manajemen Event Kampus Berbasis Flutter & Firebase
+                </h2>
+                <p class="cover-tagline animate-in" data-delay="800">
+                    Manage events. Simplify campus life.
+                </p>
+                <div class="cover-meta animate-in" data-delay="1000">
+                    <div class="meta-item">
+                        <span class="meta-label">Platform</span>
+                        <span class="meta-value">Flutter Multi-Platform</span>
+                    </div>
+                    <div class="meta-divider"></div>
+                    <div class="meta-item">
+                        <span class="meta-label">Backend</span>
+                        <span class="meta-value">Firebase Cloud</span>
+                    </div>
+                    <div class="meta-divider"></div>
+                    <div class="meta-item">
+                        <span class="meta-label">Versi</span>
+                        <span class="meta-value">1.0.0</span>
+                    </div>
+                </div>
+                <div class="cover-cta animate-in" data-delay="1200">
+                    <button class="cta-button" onclick="changeSlide(1)">
+                        Mulai Presentasi
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 2: LATAR BELAKANG ==================== -->
+        <section class="slide" data-slide="2">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">01 — Latar Belakang</div>
+                <h2 class="slide-title animate-in" data-delay="200">Mengapa <span class="gradient-text">Eventify Campus</span>?</h2>
+                <div class="problem-grid">
+                    <div class="problem-card animate-in" data-delay="300">
+                        <div class="problem-icon" style="background: linear-gradient(135deg, #F43F5E, #E11D48);">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                        </div>
+                        <h3>Pengelolaan Manual</h3>
+                        <p>Event kampus masih dicatat secara manual melalui spreadsheet atau grup WhatsApp, sering terjadi miskomunikasi.</p>
+                    </div>
+                    <div class="problem-card animate-in" data-delay="450">
+                        <div class="problem-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <h3>Data Tidak Terpusat</h3>
+                        <p>Informasi event tersebar di berbagai platform, sulit untuk melacak status dan progress kegiatan.</p>
+                    </div>
+                    <div class="problem-card animate-in" data-delay="600">
+                        <div class="problem-icon" style="background: linear-gradient(135deg, #6366F1, #4F46E5);">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h3>Solusi Digital</h3>
+                        <p>Dibutuhkan aplikasi terpusat yang modern, responsif, dan mudah digunakan untuk manajemen event kampus.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 3: TUJUAN ==================== -->
+        <section class="slide" data-slide="3">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">02 — Tujuan Proyek</div>
+                <h2 class="slide-title animate-in" data-delay="200">Tujuan & <span class="gradient-text">Sasaran</span></h2>
+                <div class="goals-container">
+                    <div class="goal-item animate-in" data-delay="300">
+                        <div class="goal-number">01</div>
+                        <div class="goal-content">
+                            <h3>Membangun Aplikasi Mobile Modern</h3>
+                            <p>Merancang dan mengembangkan aplikasi manajemen event kampus berbasis Flutter yang berjalan di Android, iOS, Web, dan Desktop.</p>
+                        </div>
+                    </div>
+                    <div class="goal-item animate-in" data-delay="400">
+                        <div class="goal-number">02</div>
+                        <div class="goal-content">
+                            <h3>Implementasi CRUD & Real-time Database</h3>
+                            <p>Merencanakan operasi Create, Read, Update, Delete dengan Firebase Firestore untuk sinkronisasi data real-time.</p>
+                        </div>
+                    </div>
+                    <div class="goal-item animate-in" data-delay="500">
+                        <div class="goal-number">03</div>
+                        <div class="goal-content">
+                            <h3>Sistem Autentikasi Aman</h3>
+                            <p>Merencanakan implementasi login dan registrasi pengguna menggunakan Firebase Authentication dengan validasi data.</p>
+                        </div>
+                    </div>
+                    <div class="goal-item animate-in" data-delay="600">
+                        <div class="goal-number">04</div>
+                        <div class="goal-content">
+                            <h3>UI/UX Premium & Responsif</h3>
+                            <p>Mendesain purwarupa antarmuka dengan estetika modern — glassmorphism, dark mode, animasi smooth, dan typography premium.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 4: TECH STACK ==================== -->
+        <section class="slide" data-slide="4">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">03 — Teknologi</div>
+                <h2 class="slide-title animate-in" data-delay="200">Rencana Technology <span class="gradient-text">Stack</span></h2>
+                <div class="tech-grid">
+                    <div class="tech-card animate-in" data-delay="300">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M 7.2 2 L 16.8 2 C 17.92 2 18.48 2 18.908 2.218 C 19.284 2.41 19.59 2.716 19.782 3.092 C 20 3.52 20 4.08 20 5.2 L 20 18.8 C 20 19.92 20 20.48 19.782 20.908 C 19.59 21.284 19.284 21.59 18.908 21.782 C 18.48 22 17.92 22 16.8 22 L 7.2 22 C 6.08 22 5.52 22 5.092 21.782 C 4.716 21.59 4.41 21.284 4.218 20.908 C 4 20.48 4 19.92 4 18.8 L 4 5.2 C 4 4.08 4 3.52 4.218 3.092 C 4.41 2.716 4.716 2.41 5.092 2.218 C 5.52 2 6.08 2 7.2 2 Z" stroke="#60A5FA" stroke-width="1.5"/><path d="M15 19H9" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Flutter</h3>
+                        <p>Framework UI cross-platform untuk membangun aplikasi mobile, web, dan desktop dari satu codebase.</p>
+                        <span class="tech-tag">SDK ^3.10.4</span>
+                    </div>
+                    <div class="tech-card animate-in" data-delay="400">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="#FBBF24" stroke-width="1.5"/><path d="M12 22V12" stroke="#FBBF24" stroke-width="1.5"/><path d="M22 7L12 12 2 7" stroke="#FBBF24" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Firebase</h3>
+                        <p>Backend-as-a-Service oleh Google — Authentication, Cloud Firestore, dan hosting.</p>
+                        <span class="tech-tag">Auth + Firestore</span>
+                    </div>
+                    <div class="tech-card animate-in" data-delay="500">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#A78BFA" stroke-width="1.5"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="#A78BFA" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Provider</h3>
+                        <p>State management pattern resmi dari Flutter untuk mengelola state aplikasi secara reaktif dan efisien.</p>
+                        <span class="tech-tag">v6.0.5</span>
+                    </div>
+                    <div class="tech-card animate-in" data-delay="600">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M4 7V4h16v3" stroke="#34D399" stroke-width="1.5"/><path d="M9 20h6" stroke="#34D399" stroke-width="1.5"/><path d="M12 4v16" stroke="#34D399" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Google Fonts</h3>
+                        <p>Menggunakan font "Outfit" untuk tampilan modern dan profesional di seluruh aplikasi.</p>
+                        <span class="tech-tag">Outfit Font</span>
+                    </div>
+                    <div class="tech-card animate-in" data-delay="700">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke="#F472B6" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Multi-Platform</h3>
+                        <p>Mendukung Android, iOS, Web, Windows, macOS, dan Linux dari satu codebase Dart.</p>
+                        <span class="tech-tag">6 Platform</span>
+                    </div>
+                    <div class="tech-card animate-in" data-delay="800">
+                        <div class="tech-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke="#FB923C" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>SharedPreferences</h3>
+                        <p>Local storage untuk cache data user, event lokal, dan preferensi mode database (Sandbox/Firebase).</p>
+                        <span class="tech-tag">Offline-First</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 5: FITUR UTAMA ==================== -->
+        <section class="slide" data-slide="5">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">04 — Fitur</div>
+                <h2 class="slide-title animate-in" data-delay="200">Rencana Fitur <span class="gradient-text">Utama</span></h2>
+                <div class="features-grid">
+                    <div class="feature-card animate-in" data-delay="300">
+                        <div class="feature-icon-wrap" style="--accent: #6366F1;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                        </div>
+                        <h3>Autentikasi</h3>
+                        <p>Login & Register dengan Firebase Auth + Sandbox Mode</p>
+                    </div>
+                    <div class="feature-card animate-in" data-delay="350">
+                        <div class="feature-icon-wrap" style="--accent: #10B981;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <h3>CRUD Event</h3>
+                        <p>Tambah, lihat, edit, dan hapus event kampus</p>
+                    </div>
+                    <div class="feature-card animate-in" data-delay="400">
+                        <div class="feature-icon-wrap" style="--accent: #F43F5E;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </div>
+                        <h3>Search & Filter</h3>
+                        <p>Cari event berdasarkan nama, PIC, atau lokasi dengan filter kategori</p>
+                    </div>
+                    <div class="feature-card animate-in" data-delay="450">
+                        <div class="feature-icon-wrap" style="--accent: #F59E0B;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                        </div>
+                        <h3>Dashboard Statistik</h3>
+                        <p>Ringkasan total, aktif, dan selesai dalam stat cards</p>
+                    </div>
+                    <div class="feature-card animate-in" data-delay="500">
+                        <div class="feature-icon-wrap" style="--accent: #8B5CF6;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        </div>
+                        <h3>Dark & Light Mode</h3>
+                        <p>Tema otomatis mengikuti sistem perangkat pengguna</p>
+                    </div>
+                    <div class="feature-card animate-in" data-delay="550">
+                        <div class="feature-icon-wrap" style="--accent: #EC4899;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                        </div>
+                        <h3>Dual Database</h3>
+                        <p>Toggle Sandbox (lokal) atau Firebase (cloud) secara dinamis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 6: KATEGORI EVENT ==================== -->
+        <section class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">05 — Kategori</div>
+                <h2 class="slide-title animate-in" data-delay="200">Kategori <span class="gradient-text">Event</span></h2>
+                <div class="category-showcase">
+                    <div class="category-card animate-in" data-delay="300">
+                        <div class="cat-visual" style="background: linear-gradient(135deg, #6366F1, #4F46E5);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+                        </div>
+                        <div class="cat-info">
+                            <h3>Akademik</h3>
+                            <p>Kuliah umum, workshop, dan kegiatan akademik lainnya</p>
+                            <div class="cat-example">
+                                <span class="cat-tag">📖 Contoh:</span> Kuliah Umum Kewirausahaan Digital
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card animate-in" data-delay="400">
+                        <div class="cat-visual" style="background: linear-gradient(135deg, #10B981, #059669);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                        </div>
+                        <div class="cat-info">
+                            <h3>Organisasi</h3>
+                            <p>Rapat kerja, koordinasi BEM, dan kegiatan organisasi</p>
+                            <div class="cat-example">
+                                <span class="cat-tag">🏛️ Contoh:</span> Rapat Kerja Bulanan BEM
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card animate-in" data-delay="500">
+                        <div class="cat-visual" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <div class="cat-info">
+                            <h3>Lomba</h3>
+                            <p>Hackathon, kompetisi coding, dan berbagai perlombaan</p>
+                            <div class="cat-example">
+                                <span class="cat-tag">🏆 Contoh:</span> HIMATIKA Campus Hackathon 2026
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card animate-in" data-delay="600">
+                        <div class="cat-visual" style="background: linear-gradient(135deg, #EC4899, #DB2777);">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </div>
+                        <div class="cat-info">
+                            <h3>Seminar</h3>
+                            <p>Seminar nasional, webinar, dan konferensi ilmiah</p>
+                            <div class="cat-example">
+                                <span class="cat-tag">🎤 Contoh:</span> Seminar Nasional AI & Machine Learning
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 7: ALUR APLIKASI ==================== -->
+        <section class="slide" data-slide="7">
+            <div class="slide-content">
+                <div class="section-label animate-in" data-delay="100">06 — Alur Aplikasi</div>
+                <h2 class="slide-title animate-in" data-delay="200">Rencana User <span class="gradient-text">Flow</span></h2>
+                <div class="flow-container animate-in" data-delay="300">
+                    <div class="flow-track">
+                        <div class="flow-step">
+                            <div class="flow-node" style="--node-color: #6366F1;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>
+                            </div>
+                            <div class="flow-label">Splash Screen</div>
+                            <div class="flow-desc">Animasi branding & cek autentikasi</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="flow-node" style="--node-color: #F43F5E;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
+                            </div>
+                            <div class="flow-label">Login / Register</div>
+                            <div class="flow-desc">Firebase Auth atau Sandbox Mode</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="flow-node" style="--node-color: #10B981;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </div>
+                            <div class="flow-label">Dashboard</div>
+                            <div class="flow-desc">Statistik & daftar event terkini</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="flow-node" style="--node-color: #F59E0B;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                            </div>
+                            <div class="flow-label">Kelola Event</div>
+                            <div class="flow-desc">CRUD + search + filter kategori</div>
+                        </div>
+                        <div class="flow-connector"></div>
+                        <div class="flow-step">
+                            <div class="flow-node" style="--node-color: #8B5CF6;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="flow-label">Profil</div>
+                            <div class="flow-desc">Data user, NIM, jurusan & logout</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-features animate-in" data-delay="500">
+                    <div class="flow-feat">
+                        <span class="feat-icon">🔄</span>
+                        <span>Real-time sync via Firestore Stream</span>
+                    </div>
+                    <div class="flow-feat">
+                        <span class="feat-icon">💾</span>
+                        <span>Offline-first dengan SharedPreferences</span>
+                    </div>
+                    <div class="flow-feat">
+                        <span class="feat-icon">🎨</span>
+                        <span>Adaptive Light/Dark theme otomatis</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SLIDE 8: PENUTUP ==================== -->
+        <section class="slide slide-closing" data-slide="8">
+            <div class="cover-bg-effects">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+                <div class="grid-overlay"></div>
+            </div>
+            <div class="slide-content cover-content">
+                <div class="cover-icon animate-in" data-delay="200">
+                    <div class="icon-glow"></div>
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <h2 class="cover-title animate-in" data-delay="400" style="font-size: clamp(2rem, 5vw, 3.2rem);">
+                    Terima <span class="gradient-text">Kasih</span>
+                </h2>
+                <p class="cover-tagline animate-in" data-delay="600">
+                    Eventify Campus — Manage events. Simplify campus life.
+                </p>
+                <div class="closing-summary animate-in" data-delay="800">
+                    <div class="summary-stat">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Kategori Event</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-stat">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Role Pengguna</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-stat">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Platform Target</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-stat">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Sistem Terpusat</span>
+                    </div>
+                </div>
+                <div class="closing-credits animate-in" data-delay="1000">
+                    <p>Dibuat dengan ❤️ menggunakan Flutter & Firebase</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Keyboard Shortcut Hint -->
+    <div class="shortcut-hint" id="shortcutHint">
+        Gunakan <kbd>←</kbd> <kbd>→</kbd> atau klik untuk navigasi
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

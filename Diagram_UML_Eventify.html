@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <title>Dokumen UML Eventify Campus</title>
+    <!-- Library untuk memproses Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Library untuk merender Diagram Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @page { size: A4; margin: 20mm; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            max-width: 900px; 
+            margin: auto; 
+            padding: 40px; 
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        h3 { color: #34495e; margin-top: 25px; }
+        a { color: #3498db; text-decoration: none; }
+        .mermaid { text-align: center; margin: 30px 0; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        blockquote { background: #f9f9f9; border-left: 5px solid #3498db; margin: 1.5em 0; padding: 1em; }
+        
+        /* Pengaturan saat di print ke PDF */
+        @media print {
+            body { padding: 0; margin: 0; }
+            a { text-decoration: none; color: black; }
+            
+            /* Memaksa setiap bab (diagram) mulai di halaman baru yang fresh */
+            h2 { page-break-before: always; }
+            
+            /* Mencegah diagram atau tabel terpotong di tengah halaman */
+            .mermaid, table, blockquote {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                display: block;
+            }
+            
+            /* Mengunci ukuran SVG agar pasti muat 1 halaman dan otomatis mengecil */
+            .mermaid svg {
+                max-width: 100% !important;
+                max-height: 230mm !important; /* Membatasi tinggi maksimum ke ukuran kertas A4 */
+                height: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="content">Loading Dokumen UML...</div>
+
+    <!-- Data Markdown -->
+    <script id="markdown-content" type="text/markdown">
+# 📐 Dokumen Diagram UML — Eventify Campus
+
+> **Proyek:** Eventify Campus — Aplikasi Manajemen Event Kampus  
+> **Teknologi:** Flutter + Firebase (Firestore & Auth) + Local Notifications  
+> **Mahasiswa:** Yudistyo Herlambang — NIM 24312120 — Prodi Informatika
+
+---
+
+## 1. Use Case Diagram
+
+Use Case Diagram menggambarkan interaksi antara aktor **Mahasiswa** dengan seluruh fitur pada sistem Eventify Campus, termasuk interaksi sistem notifikasi otomatis.
+
+```mermaid
+flowchart LR
+    subgraph Sistem Eventify Campus
+        UC1["🔐 Login"]
+        UC2["📝 Registrasi Akun"]
+        UC3["📊 Melihat Dashboard & Statistik"]
+        UC4["📋 Melihat Daftar Event"]
+        UC5["🔍 Mencari Event"]
+        UC6["🏷️ Memfilter Event Berdasarkan Kategori"]
+        UC7["➕ Menambahkan Event Baru"]
+        UC8["✏️ Mengedit Event"]
+        UC9["🗑️ Menghapus Event"]
+        UC10["📄 Melihat Detail Event"]
+        UC11["👤 Melihat Profil"]
+        UC12["🔔 Mengelola Pengaturan Notifikasi"]
+        UC13["🚪 Logout"]
+        
+        %% System specific
+        UC14["⏰ Mengirim Notifikasi Real-time & Pengingat"]
+    end
+
+    Mahasiswa(("👨‍🎓 Mahasiswa"))
+    Sistem(("⚙️ Sistem (Background)"))
+
+    Mahasiswa --> UC1
+    Mahasiswa --> UC2
+    Mahasiswa --> UC3
+    Mahasiswa --> UC4
+    Mahasiswa --> UC5
+    Mahasiswa --> UC6
+    Mahasiswa --> UC7
+    Mahasiswa --> UC8
+    Mahasiswa --> UC9
+    Mahasiswa --> UC10
+    Mahasiswa --> UC11
+    Mahasiswa --> UC12
+    Mahasiswa --> UC13
+    
+    Sistem --> UC14
+
+    UC1 -. "«include»" .-> UC3
+    UC2 -. "«include»" .-> UC3
+    UC4 -. "«extend»" .-> UC5
+    UC4 -. "«extend»" .-> UC6
+    UC10 -. "«extend»" .-> UC8
+    
+    UC7 -. "«trigger»" .-> UC14
+    UC8 -. "«trigger»" .-> UC14
+    UC9 -. "«trigger»" .-> UC14
+```
+
+### Deskripsi Use Case
+
+| No | Use Case | Deskripsi |
+|----|----------|-----------|
+| UC1 | Login | Mahasiswa masuk ke sistem menggunakan email dan password via Firebase Auth |
+| UC2 | Registrasi Akun | Mahasiswa membuat akun baru dengan profil lengkap yang disimpan ke Firestore |
+| UC3 | Melihat Dashboard | Melihat ringkasan statistik (total event, aktif, selesai) |
+| UC4-6 | Melihat/Cari/Filter | Mahasiswa mencari atau memfilter event dari database Cloud Firestore |
+| UC7-9 | CRUD Event | Membuat, mengedit, atau menghapus event |
+| UC10 | Melihat Detail Event | Melihat informasi lengkap suatu event |
+| UC11 | Melihat Profil | Menampilkan data profil (nama, NIM, jurusan) |
+| UC12 | Mengelola Notifikasi | Mahasiswa dapat menyalakan/mematikan notifikasi (alarm & pengingat) |
+| UC13 | Logout | Keluar dari akun |
+| UC14 | Mengirim Notifikasi | Sistem secara otomatis mengirim notifikasi ketika event dibuat/diupdate/dihapus, serta pengingat H-1 dan H-1 jam acara. |
+
+---
+
+## 2. Activity Diagram — Login
+
+```mermaid
+flowchart TD
+    A(["🟢 Mulai"]) --> B["Buka Aplikasi"]
+    B --> C["Tampilkan Splash Screen"]
+    C --> D{"User sudah login?"}
+    D -- Ya --> E["Redirect ke Dashboard"]
+    D -- Tidak --> F["Tampilkan Halaman Login"]
+    F --> G["Input Email & Password"]
+    G --> H{"Validasi Form"}
+    H -- Gagal --> I["Tampilkan Pesan Error Validasi"]
+    I --> G
+    H -- Berhasil --> J["Autentikasi via\nFirebase Auth"]
+    J --> K{"Login Berhasil?"}
+    K -- Gagal --> L["Tampilkan Pesan Error Login"]
+    L --> G
+    K -- Berhasil --> M["Ambil Data User dari Firestore\nSimpan ke Cache Lokal"]
+    M --> N["Load Stream Data Event"]
+    N --> E
+    E --> O(["🔴 Selesai"])
+```
+
+---
+
+## 3. Activity Diagram — Registrasi
+
+```mermaid
+flowchart TD
+    A(["🟢 Mulai"]) --> B["Buka Halaman Registrasi"]
+    B --> C["Input Data Profil:\n• Nama, NIM, Jurusan\n• Email, Password"]
+    C --> D{"Validasi Form"}
+    D -- Gagal --> E["Tampilkan Pesan Error Validasi"]
+    E --> C
+    D -- Berhasil --> F["Buat Akun via\nFirebase Auth"]
+    F --> G{"Sukses?"}
+    G -- Gagal --> H["Tampilkan Pesan Error Registrasi"]
+    H --> C
+    G -- Berhasil --> I["Simpan Profil ke\nCloud Firestore"]
+    I --> J["Simpan Cache Profil Lokal"]
+    J --> K["Tampilkan Pesan Sukses"]
+    K --> L["Redirect ke Dashboard"]
+    L --> M(["🔴 Selesai"])
+```
+
+---
+
+## 4. Activity Diagram — CRUD Event & Notifikasi
+
+### Tambah Event (Create)
+
+```mermaid
+flowchart TD
+    A(["🟢 Mulai"]) --> B["Isi Form Event Baru"]
+    B --> C{"Validasi Form"}
+    C -- Gagal --> D["Pesan Error"]
+    C -- Berhasil --> E["Simpan Event ke Cloud Firestore"]
+    E --> F{"Notifikasi Aktif?"}
+    F -- Ya --> G["Munculkan Pop-up\nEvent Baru Ditambahkan"]
+    F -- Tidak --> I
+    G --> H["Jadwalkan Pengingat:\n• H-1 (24 Jam)\n• 1 Jam Sebelum Acara"]
+    H --> I["Reload UI (Otomatis via Stream)"]
+    I --> J["Redirect ke Daftar Event"]
+    J --> K(["🔴 Selesai"])
+```
+
+---
+
+## 5. Class Diagram
+
+```mermaid
+classDiagram
+    class UserModel {
+        +String uid
+        +String name
+        +String email
+        +String nim
+        +String major
+        +toMap() Map~String, dynamic~
+        +fromMap(Map, String) UserModel
+    }
+
+    class EventModel {
+        +String id
+        +String name
+        +String pic
+        +DateTime date
+        +String location
+        +String description
+        +String status
+        +String category
+        +DateTime createdAt
+        +toMap() Map~String, dynamic~
+        +fromFirestore(Map, String) EventModel
+    }
+
+    class AuthService {
+        -FirebaseAuth _firebaseAuth
+        -FirebaseFirestore _firestore
+        +firebaseUserStream Stream~User~
+        +login(email, password) Future~UserModel~
+        +register(name, email, password, nim, major) Future~UserModel~
+        +getCurrentUser() Future~UserModel?~
+        +logout() Future~void~
+    }
+
+    class EventService {
+        -FirebaseFirestore _firestore
+        +getEventsStream() Stream~List~EventModel~~
+        +getEventsOnce() Future~List~EventModel~~
+        +addEvent(EventModel) Future~void~
+        +updateEvent(EventModel) Future~void~
+        +deleteEvent(String) Future~void~
+    }
+
+    class NotificationService {
+        -FlutterLocalNotificationsPlugin _plugin
+        -bool _isInitialized
+        +initialize() Future~void~
+        +showEventCreatedNotification(EventModel) Future~void~
+        +showEventUpdatedNotification(EventModel) Future~void~
+        +showEventDeletedNotification(String) Future~void~
+        +scheduleEventReminder(EventModel) Future~void~
+        +scheduleEventReminderHourBefore(EventModel) Future~void~
+        +cancelEventReminders(String) Future~void~
+        +cancelAll() Future~void~
+    }
+
+    class DatabaseHelper {
+        -String _userKey$
+        -String _notifKey$
+        +saveLocalUser(Map)$ Future~void~
+        +getLocalUser()$ Future~Map?~
+        +clearLocalUser()$ Future~void~
+        +isNotificationEnabled()$ Future~bool~
+        +setNotificationEnabled(bool)$ Future~void~
+    }
+
+    class AppState {
+        -AuthService _authService
+        -EventService _eventService
+        -NotificationService _notificationService
+        -bool _notificationsEnabled
+        -UserModel? _currentUser
+        -List~EventModel~ _events
+        +toggleNotifications(bool) Future~void~
+        +login(String, String) Future~void~
+        +register(...) Future~void~
+        +logout() Future~void~
+        +addEvent(...) Future~void~
+        +updateEvent(...) Future~void~
+        +deleteEvent(String) Future~void~
+        +loadEventsData() Future~void~
+    }
+
+    AppState --> AuthService : uses
+    AppState --> EventService : uses
+    AppState --> NotificationService : uses
+    AppState --> UserModel : manages
+    AppState --> EventModel : manages
+    AuthService --> UserModel : creates
+    AuthService --> DatabaseHelper : uses
+    EventService --> EventModel : uses
+```
+
+---
+
+## 6. Sequence Diagram — Login
+
+```mermaid
+sequenceDiagram
+    actor M as 👨‍🎓 Mahasiswa
+    participant LS as LoginScreen
+    participant AS as AppState
+    participant Auth as AuthService
+    participant DB as DatabaseHelper
+    participant FB as Firebase
+
+    M->>LS: Input email & password
+    M->>LS: Tap "Masuk Ke Aplikasi"
+    LS->>AS: login(email, password)
+    AS->>Auth: login(email, password)
+    Auth->>FB: signInWithEmailAndPassword()
+    FB-->>Auth: UserCredential
+    Auth->>FB: Fetch profil dari Firestore
+    FB-->>Auth: User document
+    Auth->>DB: saveLocalUser(userMap)
+    Auth-->>AS: UserModel
+    AS->>AS: loadEventsData() (Subscribe to Stream)
+    AS-->>LS: Notifikasi state berubah
+    LS-->>M: Tampilkan snackbar sukses
+    LS->>LS: Navigator ke Dashboard
+```
+
+---
+
+## 7. Sequence Diagram — Tambah Event & Notifikasi
+
+```mermaid
+sequenceDiagram
+    actor M as 👨‍🎓 Mahasiswa
+    participant AES as AddEditEventScreen
+    participant AS as AppState
+    participant ES as EventService
+    participant FS as Cloud Firestore
+    participant NS as NotificationService
+
+    M->>AES: Isi form event lengkap
+    M->>AES: Tap "Publikasikan Event"
+    AES->>AS: addEvent(name, date, ...)
+    AS->>AS: Buat EventModel baru (Generate ID)
+    AS->>ES: addEvent(eventModel)
+    ES->>FS: collection('events').doc(id).set(event)
+    FS-->>ES: Success
+    ES-->>AS: Complete
+    
+    alt Notifications Enabled
+        AS->>NS: showEventCreatedNotification(eventModel)
+        NS-->>M: Push Notification "Event Baru Ditambahkan"
+        alt Status == 'Aktif'
+            AS->>NS: scheduleEventReminder(eventModel)
+            NS->>NS: Set OS Alarm untuk H-1
+            AS->>NS: scheduleEventReminderHourBefore(eventModel)
+            NS->>NS: Set OS Alarm untuk 1 Jam sebelum
+        end
+    end
+
+    AS-->>AES: Complete
+    AES-->>M: Snackbar "Event berhasil ditambahkan!"
+    AES->>AES: Redirect ke Daftar Event
+```
+
+---
+
+## 8. Sequence Diagram — Hapus Event
+
+```mermaid
+sequenceDiagram
+    actor M as 👨‍🎓 Mahasiswa
+    participant HT as HomeTab / EventsTab
+    participant AS as AppState
+    participant ES as EventService
+    participant FS as Cloud Firestore
+    participant NS as NotificationService
+
+    M->>HT: Tap Konfirmasi Hapus
+    HT->>AS: deleteEvent(eventId)
+    AS->>AS: Get eventName dari local list
+    AS->>ES: deleteEvent(id)
+    ES->>FS: collection('events').doc(id).delete()
+    FS-->>ES: Success
+    ES-->>AS: Complete
+    
+    alt Notifications Enabled
+        AS->>NS: showEventDeletedNotification(eventName)
+        NS-->>M: Push Notification "Event Dihapus"
+        AS->>NS: cancelEventReminders(eventId)
+        NS->>NS: Batalkan OS Alarm untuk event ini
+    end
+
+    AS-->>HT: Update UI
+```
+
+---
+
+## 9. Entity Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    USERS {
+        string uid PK "Primary Key"
+        string name "Nama Lengkap"
+        string email "Alamat Email (unik)"
+        string nim "Nomor Induk Mahasiswa"
+        string major "Jurusan / Prodi"
+    }
+
+    EVENTS {
+        string id PK "Primary Key"
+        string name "Nama Event"
+        string pic "Penanggung Jawab"
+        timestamp date "Tanggal & Waktu Pelaksanaan"
+        string location "Lokasi Event"
+        string description "Deskripsi Kegiatan"
+        string status "Status: Aktif / Selesai"
+        string category "Kategori: Akademik / Organisasi / Lomba / Seminar"
+        timestamp createdAt "Tanggal Dibuat"
+    }
+
+    USERS ||--o{ EVENTS : "mengelola"
+```
+
+---
+
+## 10. Flowchart — Alur Navigasi Aplikasi
+
+```mermaid
+flowchart TD
+    START(["🚀 Launch App"]) --> SPLASH["SplashScreen\n⏳ Loading & Init Notif"]
+    SPLASH --> CHECK{"User sudah\nlogin?"}
+    CHECK -- Tidak --> LOGIN["🔐 LoginScreen"]
+    CHECK -- Ya --> DASH
+    LOGIN --> REG["📝 RegisterScreen"]
+    REG --> DASH
+    LOGIN --> DASH
+
+    DASH["📊 DashboardLayout"]
+
+    DASH --> TAB0["🏠 HomeTab\n• Statistik\n• Daftar Event Terbaru\n• Search Bar"]
+    DASH --> TAB1["📋 EventsTab\n• Daftar Lengkap Event\n• Filter Kategori\n• Search Bar"]
+    DASH --> TAB2["➕ AddEditEventScreen\n• Form Tambah Event"]
+    DASH --> TAB3["👤 ProfileTab\n• Info Profil\n• Toggle Notifikasi\n• Logout"]
+
+    TAB0 --> DETAIL["📄 EventDetailScreen"]
+    TAB1 --> DETAIL
+    DETAIL --> EDIT["✏️ AddEditEventScreen\n(Mode Edit)"]
+
+    TAB0 --> DELETE["🗑️ Konfirmasi Hapus\n(AlertDialog)"]
+    TAB1 --> DELETE
+
+    TAB3 --> LOGOUT["🚪 Logout"]
+    LOGOUT --> LOGIN
+```
+
+---
+
+## 11. Component Diagram
+
+```mermaid
+flowchart TB
+    subgraph Presentation Layer
+        SS["SplashScreen"]
+        LS["LoginScreen"]
+        RS["RegisterScreen"]
+        DL["DashboardLayout"]
+        HT["HomeTab"]
+        ET["EventsTab"]
+        AES["AddEditEventScreen"]
+        PT["ProfileTab"]
+        EDS["EventDetailScreen"]
+    end
+
+    subgraph State Management
+        AP["AppState\n(ChangeNotifier + Provider)"]
+    end
+
+    subgraph Service Layer
+        AUTH["AuthService"]
+        EVS["EventService"]
+        NOTIF["NotificationService"]
+    end
+
+    subgraph Data & Platform Layer
+        DBH["DatabaseHelper\n(SharedPreferences)"]
+        FBA["Firebase Auth"]
+        FFS["Cloud Firestore"]
+        OSN["OS Local Notifications API"]
+    end
+
+    %% Presentation → State
+    LS --> AP
+    RS --> AP
+    HT --> AP
+    ET --> AP
+    AES --> AP
+    PT --> AP
+
+    %% State → Services
+    AP --> AUTH
+    AP --> EVS
+    AP --> NOTIF
+
+    %% Services → Data/Platform
+    AUTH --> DBH
+    AUTH --> FBA
+    EVS --> FFS
+    NOTIF --> OSN
+
+    %% Note for Database Helper
+    DBH -. "Menyimpan Cache User\n& Preferensi Notifikasi" .- DBH
+```
+
+---
+
+## 12. State Diagram — Status Event
+
+```mermaid
+stateDiagram-v2
+    [*] --> Aktif : Event Baru Dibuat\n(Notif H-1 Dijadwalkan)
+    Aktif --> Selesai : Status diubah\nmenjadi "Selesai" (Notif Dibatalkan)
+    Selesai --> Aktif : Status diubah\nkembali menjadi "Aktif" (Notif Dijadwalkan)
+    Aktif --> [*] : Event Dihapus
+    Selesai --> [*] : Event Dihapus
+```
+    </script>
+
+    <!-- Proses dan Render -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const markdownText = document.getElementById('markdown-content').innerHTML;
+            
+            // 1. Konversi Markdown ke HTML
+            document.getElementById('content').innerHTML = marked.parse(markdownText);
+            
+            // 2. Konversi blok kode mermaid ke div untuk library mermaid.js
+            document.querySelectorAll('pre code.language-mermaid').forEach(el => {
+                const div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = el.textContent;
+                el.parentNode.replaceWith(div);
+            });
+            
+            // 3. Render Diagram
+            mermaid.initialize({ 
+                startOnLoad: false, 
+                theme: 'default',
+                securityLevel: 'loose'
+            });
+            
+            mermaid.run({
+                querySelector: '.mermaid'
+            }).then(() => {
+                // Beri sedikit jeda agar semua diagram selesai tergambar di DOM
+                setTimeout(() => {
+                    // 4. Secara otomatis membuka jendela Print/Save as PDF
+                    window.print();
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

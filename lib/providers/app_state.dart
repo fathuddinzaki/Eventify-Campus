@@ -178,11 +178,31 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await _authService.logout();
-    await _notificationService.cancelAll();
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await _eventsSubscription?.cancel();
+      _eventsSubscription = null;
+    } catch (e) {
+      debugPrint('Error cancelling events stream: $e');
+    }
+
+    try {
+      await _notificationService.cancelAll();
+    } catch (e) {
+      debugPrint('Error cancelling notifications: $e');
+    }
+
+    try {
+      await _authService.logout();
+    } catch (e) {
+      debugPrint('Error during auth logout: $e');
+    }
+
     _currentUser = null;
-    _eventsSubscription?.cancel();
     _events = [];
+    _isLoading = false;
     notifyListeners();
   }
 

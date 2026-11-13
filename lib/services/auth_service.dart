@@ -111,7 +111,15 @@ class AuthService {
 
   // Sign Out
   Future<void> logout() async {
-    await DatabaseHelper.clearLocalUser();
-    await _firebaseAuth.signOut();
+    try {
+      await DatabaseHelper.clearLocalUser();
+    } catch (e) {
+      // Local cache clear fallback
+    }
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      // FirebaseAuth sign out error fallback
+    }
   }
 }

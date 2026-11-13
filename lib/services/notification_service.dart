@@ -209,13 +209,21 @@ class NotificationService {
 
   /// Cancel all reminders for a specific event
   Future<void> cancelEventReminders(String eventId) async {
-    await _plugin.cancel(eventId.hashCode + 5000);
-    await _plugin.cancel(eventId.hashCode + 6000);
+    try {
+      await _plugin.cancel(eventId.hashCode + 5000);
+      await _plugin.cancel(eventId.hashCode + 6000);
+    } catch (e) {
+      if (kDebugMode) print('[NotificationService] Error in cancelEventReminders: $e');
+    }
   }
 
   /// Cancel all notifications
   Future<void> cancelAll() async {
-    await _plugin.cancelAll();
+    try {
+      await _plugin.cancelAll();
+    } catch (e) {
+      if (kDebugMode) print('[NotificationService] Error in cancelAll: $e');
+    }
   }
 
   /// Get list of pending (scheduled) notifications

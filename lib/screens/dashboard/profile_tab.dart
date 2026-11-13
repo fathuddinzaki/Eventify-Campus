@@ -4,30 +4,136 @@ import '../../providers/app_state.dart';
 import '../../theme/app_theme.dart';
 import '../login_screen.dart';
 
-class ProfileTab extends StatelessWidget {
+class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
 
-  void _handleLogout(BuildContext context) async {
+  @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends State<ProfileTab> {
+  void _showLogoutConfirmation(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: isDark ? AppTheme.darkCard : Colors.white,
+          title: Row(
+            children: [
+              const Icon(Icons.logout_rounded, color: AppTheme.accentPink, size: 26),
+              const SizedBox(width: 12),
+              Text(
+                'Konfirmasi Keluar',
+                style: TextStyle(
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            'Apakah Anda yakin ingin keluar dari akun Anda?',
+            style: TextStyle(
+              color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+              fontSize: 14,
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'Batal',
+                style: TextStyle(
+                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onPressed: () => Navigator.of(ctx).pop(),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.accentPink,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              ),
+              child: const Text('Keluar Akun', style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                _performLogout(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _performLogout(BuildContext context) async {
     final appState = Provider.of<AppState>(context, listen: false);
-    
-    // Call logout
-    await appState.logout();
-    
+    final messenger = ScaffoldMessenger.of(context);
+
+    // Tampilkan dialog loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppTheme.darkCard
+                : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(color: AppTheme.primaryIndigo),
+              SizedBox(height: 16),
+              Text(
+                'Sedang keluar...',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    try {
+      await appState.logout();
+    } catch (e) {
+      debugPrint('Logout error: $e');
+    }
+
     if (!context.mounted) return;
-    
-    // Navigate back to login
-    Navigator.pushAndRemoveUntil(
-      context,
+
+    // Arahkan kembali ke halaman Login dan bersihkan semua riwayat rute
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
       (route) => false,
     );
-    
-    ScaffoldMessenger.of(context).showSnackBar(
+
+    messenger.showSnackBar(
       SnackBar(
-        content: const Text('Berhasil keluar dari akun'),
+        content: const Row(
+          children: [
+            Icon(Icons.check_circle_outline_rounded, color: Colors.white),
+            SizedBox(width: 12),
+            Text(
+              'Berhasil keluar dari akun',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
         backgroundColor: AppTheme.primaryNavy,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(16),
       ),
     );
   }
@@ -44,7 +150,11 @@ class ProfileTab extends StatelessWidget {
       body: Consumer<AppState>(
         builder: (context, appState, _) {
           final user = appState.currentUser;
-          
+          final userName = (user?.name != null && user!.name.trim().isNotEmpty) ? user.name.trim() : 'Mahasiswa';
+          final userNim = (user?.nim != null && user!.nim.trim().isNotEmpty && user.nim != 'N/A') ? user.nim.trim() : '-';
+          final userMajor = (user?.major != null && user!.major.trim().isNotEmpty && user.major != 'N/A') ? user.major.trim() : '-';
+          final userEmail = (user?.email != null && user!.email.trim().isNotEmpty) ? user.email.trim() : '-';
+
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -87,7 +197,7 @@ class ProfileTab extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            (user?.name.isNotEmpty == true) ? user!.name[0].toUpperCase() : 'M',
+                            userName.isNotEmpty ? userName[0].toUpperCase() : 'M',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 32,
@@ -99,7 +209,7 @@ class ProfileTab extends StatelessWidget {
                       const SizedBox(height: 16),
                       // Name
                       Text(
-                        user?.name ?? 'Mahasiswa Universitas',
+                        userName,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -107,27 +217,16 @@ class ProfileTab extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 4),
-                      // NIM & Major
-                      Text(
-                        'NIM: ${user?.nim ?? '24312120'}  |  Prodi: ${user?.major ?? 'Informatika'}',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 6),
                       // Email chip
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                         decoration: BoxDecoration(
                           color: isDark ? Colors.white.withOpacity(0.05) : Colors.indigo.withOpacity(0.04),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
-                          user?.email ?? 'email@student.univ.ac.id',
+                          userEmail,
                           style: TextStyle(
                             fontSize: 12,
                             color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
@@ -138,47 +237,71 @@ class ProfileTab extends StatelessWidget {
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 
-                // 2. UTS Academic Submission Info Card
+                // 2. Detail Data Mahasiswa Terdaftar (Pengganti Informasi UTS)
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: AppTheme.accentGradient,
+                    color: isDark ? AppTheme.darkCard : Colors.white,
                     borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.04),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: isDark ? Colors.black.withOpacity(0.15) : Colors.indigo.withOpacity(0.03),
+                        blurRadius: 16,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.school_rounded, color: Colors.white, size: 24),
-                          const SizedBox(width: 10),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryIndigo.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.badge_rounded,
+                              color: AppTheme.primaryIndigo,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
                           Text(
-                            'Informasi UTS Pemrograman Mobile',
+                            'Informasi Mahasiswa',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
                             ),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      Divider(
+                        color: isDark ? Colors.white.withOpacity(0.06) : Colors.black.withOpacity(0.06),
+                        height: 1,
+                      ),
                       const SizedBox(height: 14),
-                      const Divider(color: Colors.white24, height: 1),
-                      const SizedBox(height: 14),
-                      _buildWhiteInfoRow('Nama Mahasiswa', 'Yudistyo Herlambang'),
-                      const SizedBox(height: 8),
-                      _buildWhiteInfoRow('Nomor Induk Mahasiswa (NIM)', '24312120'),
-                      const SizedBox(height: 8),
-                      _buildWhiteInfoRow('Judul Project', 'Eventify Campus'),
-                      const SizedBox(height: 8),
-                      _buildWhiteInfoRow('Teknologi Backend', 'Firebase Firestore'),
+                      _buildInfoRow('Nama Mahasiswa', userName, isDark),
+                      const SizedBox(height: 12),
+                      _buildInfoRow('Nomor Induk Mahasiswa (NIM)', userNim, isDark),
+                      const SizedBox(height: 12),
+                      _buildInfoRow('Program Studi', userMajor, isDark),
+                      const SizedBox(height: 12),
+                      _buildInfoRow('Email Terdaftar', userEmail, isDark),
                     ],
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 
                 // 3. Settings Toggle
                 Text(
@@ -256,7 +379,7 @@ class ProfileTab extends StatelessWidget {
                 
                 // 4. Log Out Action
                 ElevatedButton(
-                  onPressed: () => _handleLogout(context),
+                  onPressed: () => _showLogoutConfirmation(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.accentPink.withOpacity(0.12),
                     foregroundColor: AppTheme.accentPink,
@@ -302,23 +425,28 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget _buildWhiteInfoRow(String label, String value) {
+  Widget _buildInfoRow(String label, String value, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: TextStyle(
             fontSize: 13,
-            color: Colors.white.withOpacity(0.75),
+            color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
           ),
         ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        const SizedBox(width: 16),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+            ),
           ),
         ),
       ],

@@ -172,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: CustomTextField(
                                 controller: _nimController,
                                 labelText: 'NIM',
-                                hintText: '24312120',
+                                hintText: 'Contoh: 2401001',
                                 prefixIcon: Icons.badge_rounded,
                                 keyboardType: TextInputType.number,
                                 validator: (val) {

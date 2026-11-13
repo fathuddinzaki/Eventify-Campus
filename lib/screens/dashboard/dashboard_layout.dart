@@ -78,14 +78,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 _currentIndex == 1 ? Icons.event_note_rounded : Icons.event_note_outlined,
                 color: _currentIndex == 1 ? AppTheme.primaryIndigo : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary),
               ),
-              label: 'Daftar Event',
+              label: 'Event',
             ),
             NavigationDestination(
               icon: Icon(
                 _currentIndex == 2 ? Icons.add_box_rounded : Icons.add_box_outlined,
                 color: _currentIndex == 2 ? AppTheme.primaryIndigo : (isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary),
               ),
-              label: 'Tambah Event',
+              label: 'Tambah',
             ),
             NavigationDestination(
               icon: Icon(

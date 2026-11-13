@@ -91,6 +91,11 @@ class AppTheme {
           fontWeight: FontWeight.w600,
           color: lightTextPrimary,
         ),
+        titleMedium: GoogleFonts.outfit(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: lightTextPrimary,
+        ),
         bodyLarge: GoogleFonts.outfit(
           fontSize: 16,
           color: lightTextPrimary,
@@ -146,7 +151,7 @@ class AppTheme {
         onSurface: darkTextPrimary,
         onBackground: darkTextPrimary,
       ),
-      textTheme: GoogleFonts.outfitTextTheme().copyWith(
+      textTheme: GoogleFonts.outfitTextTheme(ThemeData.dark().textTheme).copyWith(
         displayLarge: GoogleFonts.outfit(
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -155,6 +160,11 @@ class AppTheme {
         titleLarge: GoogleFonts.outfit(
           fontSize: 20,
           fontWeight: FontWeight.w600,
+          color: darkTextPrimary,
+        ),
+        titleMedium: GoogleFonts.outfit(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
           color: darkTextPrimary,
         ),
         bodyLarge: GoogleFonts.outfit(

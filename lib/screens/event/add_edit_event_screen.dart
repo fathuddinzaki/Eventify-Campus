@@ -291,47 +291,68 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
             // 3. Date Selection Row (Date Picker field)
             Container(
               margin: const EdgeInsets.only(bottom: 18),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkCard.withOpacity(0.4) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDark ? Colors.black.withOpacity(0.1) : Colors.indigo.withOpacity(0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
                 border: Border.all(
                   color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.03),
                   width: 1.5,
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Tanggal & Waktu Event',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          dateFormatted,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _pickDate,
+                  borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.date_range_rounded,
+                          color: isDark ? AppTheme.secondaryIndigo : AppTheme.primaryIndigo,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tanggal & Waktu Event',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                dateFormatted,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: _pickDate,
-                        icon: const Icon(Icons.date_range_rounded, color: AppTheme.primaryIndigo),
-                        tooltip: 'Pilih Tanggal',
-                      ),
-                    ],
+                        Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+                          size: 20,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
             ),
 
@@ -352,84 +373,162 @@ class _AddEditEventScreenState extends State<AddEditEventScreen> {
             // 5. Category Dropdown
             Container(
               margin: const EdgeInsets.only(bottom: 18),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkCard.withOpacity(0.4) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.03),
-                  width: 1.5,
-                ),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  decoration: InputDecoration(
-                    labelText: 'Kategori Event',
-                    labelStyle: TextStyle(
-                      color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
-                      fontSize: 12,
-                    ),
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(Icons.category_rounded, color: AppTheme.primaryIndigo, size: 22),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDark ? Colors.black.withOpacity(0.1) : Colors.indigo.withOpacity(0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                  dropdownColor: isDark ? AppTheme.darkCard : Colors.white,
-                  items: categories.map((cat) {
-                    return DropdownMenuItem<String>(
-                      value: cat,
-                      child: Text(cat, style: const TextStyle(fontSize: 15)),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) {
-                      setState(() {
-                        _selectedCategory = val;
-                      });
-                    }
-                  },
+                ],
+              ),
+              child: DropdownButtonFormField<String>(
+                value: _selectedCategory,
+                isExpanded: true,
+                dropdownColor: isDark ? AppTheme.darkCard : Colors.white,
+                icon: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
                 ),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                ),
+                decoration: InputDecoration(
+                  labelText: 'Kategori Event',
+                  labelStyle: TextStyle(
+                    color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+                    fontSize: 14,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.category_rounded,
+                    color: isDark ? AppTheme.secondaryIndigo : AppTheme.primaryIndigo,
+                    size: 22,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.03),
+                      width: 1.5,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: AppTheme.primaryIndigo,
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+                items: categories.map((cat) {
+                  return DropdownMenuItem<String>(
+                    value: cat,
+                    child: Text(
+                      cat,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (val) {
+                  if (val != null) {
+                    setState(() {
+                      _selectedCategory = val;
+                    });
+                  }
+                },
               ),
             ),
 
             // 6. Status Dropdown
             Container(
               margin: const EdgeInsets.only(bottom: 18),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
                 color: isDark ? AppTheme.darkCard.withOpacity(0.4) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.03),
-                  width: 1.5,
-                ),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButtonFormField<String>(
-                  value: _selectedStatus,
-                  decoration: InputDecoration(
-                    labelText: 'Status Event',
-                    labelStyle: TextStyle(
-                      color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
-                      fontSize: 12,
-                    ),
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(Icons.check_circle_rounded, color: AppTheme.primaryIndigo, size: 22),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDark ? Colors.black.withOpacity(0.1) : Colors.indigo.withOpacity(0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                  dropdownColor: isDark ? AppTheme.darkCard : Colors.white,
-                  items: statuses.map((status) {
-                    return DropdownMenuItem<String>(
-                      value: status,
-                      child: Text(status, style: const TextStyle(fontSize: 15)),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) {
-                      setState(() {
-                        _selectedStatus = val;
-                      });
-                    }
-                  },
+                ],
+              ),
+              child: DropdownButtonFormField<String>(
+                value: _selectedStatus,
+                isExpanded: true,
+                dropdownColor: isDark ? AppTheme.darkCard : Colors.white,
+                icon: Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
                 ),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                ),
+                decoration: InputDecoration(
+                  labelText: 'Status Event',
+                  labelStyle: TextStyle(
+                    color: isDark ? AppTheme.darkTextSecondary : AppTheme.lightTextSecondary,
+                    fontSize: 14,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.check_circle_rounded,
+                    color: isDark ? AppTheme.secondaryIndigo : AppTheme.primaryIndigo,
+                    size: 22,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: isDark ? Colors.white.withOpacity(0.04) : Colors.indigo.withOpacity(0.03),
+                      width: 1.5,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: AppTheme.primaryIndigo,
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+                items: statuses.map((status) {
+                  return DropdownMenuItem<String>(
+                    value: status,
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? AppTheme.darkTextPrimary : AppTheme.lightTextPrimary,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (val) {
+                  if (val != null) {
+                    setState(() {
+                      _selectedStatus = val;
+                    });
+                  }
+                },
               ),
             ),
 
